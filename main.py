@@ -1,28 +1,84 @@
 from kivy.app import App
+from kivy.clock import Clock
+from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-from jnius import autoclass
 
-class SpeechRecognitionApp(App):
+from plyer.facades import stt
+
+Builder.load_string('''
+#:import stt plyer.facades.stt
+
+<SpeechInterface>:
+    orientation: 'vertical'
+    Label:
+        size_hint_y: None
+        height: sp(40)
+        text: 'Is supported: %s' % stt.exist()
+    Label:
+        size_hint_y: None
+        height: sp(40)
+        text: 'Possible Matches'
+    TextInput:
+        id: results
+        hint_text: 'results (auto stop)'
+    TextInput:
+        id: partial
+        hint_text: 'partial results (manual stop)'
+    TextInput:
+        id: errors
+        hint_text: 'errors'
+    Button:
+        id: start_button
+        text: 'Start Listening'
+        on_release: root.start_listening()
+''')
+
+
+class SpeechInterface(BoxLayout):
+    '''Root Widget.'''
+
+    def start_listening(self):
+        if stt.listening:
+            self.stop_listening()
+            return
+
+        start_button = self.ids.start_button
+        start_button.text = 'Stop'
+
+        self.ids.results.text = ''
+        self.ids.partial.text = ''
+
+        stt.start()
+
+        Clock.schedule_interval(self.check_state, 1 / 5)
+
+    def stop_listening(self):
+        start_button = self.ids.start_button
+        start_button.text = 'Start Listening'
+
+        stt.stop()
+        self.update()
+
+        Clock.unschedule(self.check_state)
+
+    def check_state(self, dt):
+        # if the recognizer service stops, change UI
+        if not stt.listening:
+            self.stop_listening()
+
+    def update(self):
+        self.ids.partial.text = '\n'.join(stt.partial_results)
+        self.ids.results.text = '\n'.join(stt.results)
+
+
+class SpeechApp(App):
+
     def build(self):
-        layout = BoxLayout(orientation='vertical')
-        self.label = Label(text="Press the button to start speech recognition")
-        self.button = Button(text="Start Speech Recognition")
-        self.button.bind(on_press=self.start_speech_recognition)
+        return SpeechInterface()
 
-        layout.add_widget(self.label)
-        layout.add_widget(self.button)
+    def on_pause(self):
+        return True
 
-        # Access the MainActivity class instead of PythonActivity
-        self.MainActivity = autoclass('org.example.myapp.MainActivity')
-        self.activity = self.MainActivity.mActivity
 
-        return layout
-
-    def start_speech_recognition(self, instance):
-        # Call the startSpeechRecognition method from MainActivity
-        self.activity.startSpeechRecognition()
-
-if __name__ == '__main__':
-    SpeechRecognitionApp().run()
+if __name__ == "__main__":
+    SpeechApp().run()
