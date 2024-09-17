@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,git+https://github.com/kivy/plyer.git@master
+requirements = python3,kivy,git+https://github.com/kivy/plyer.git@master,deep-translator,beautifulsoup4<5.0.0,requests<3.0.0,soupsieve>1.2,charset-normalizer<4,idna<4,urllib3<1.27,certifi>=2017.4.17
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
