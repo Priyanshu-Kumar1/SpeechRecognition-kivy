@@ -14,14 +14,14 @@ class SpeechRecognitionApp(App):
         layout.add_widget(self.label)
         layout.add_widget(self.button)
 
-        # Access the MainActivity and initialize it
-        self.PythonActivity = autoclass('org.kivy.android.PythonActivity')
-        self.activity = self.PythonActivity.mActivity
+        # Access the MainActivity class instead of PythonActivity
+        self.MainActivity = autoclass('org.example.myapp.MainActivity')
+        self.activity = self.MainActivity.mActivity
 
         return layout
 
     def start_speech_recognition(self, instance):
-        # Call the Java method to start speech recognition
+        # Call the startSpeechRecognition method from MainActivity
         self.activity.startSpeechRecognition()
 
 if __name__ == '__main__':
