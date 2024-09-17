@@ -3,10 +3,10 @@ from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 
-from plyer.facades import stt
+from Speechrecognizer import stt
 
 Builder.load_string('''
-#:import stt plyer.facades.stt
+#:import stt Speechrecognizer.stt
 
 <SpeechInterface>:
     orientation: 'vertical'
