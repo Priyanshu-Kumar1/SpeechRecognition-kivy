@@ -4,6 +4,7 @@ from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from android.permissions import request_permissions, Permission
 
+from translator import translate
 from Speechrecognizer import stt
 
 Builder.load_string('''
@@ -68,7 +69,7 @@ class SpeechInterface(BoxLayout):
             self.stop_listening()
 
     def update(self):
-        self.ids.partial.text = '\n'.join(stt.partial_results)
+        self.ids.partial.text = translate(stt.results, 'en')
         self.ids.results.text = '\n'.join(stt.results)
 
 
