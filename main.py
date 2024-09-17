@@ -74,6 +74,13 @@ class SpeechInterface(BoxLayout):
 class SpeechApp(App):
 
     def build(self):
+        if ( platform == 'android' ):
+            from android.permissions import request_permissions, Permission
+
+            request_permissions([
+                Permission.RECORD_AUDIO,
+            ])
+            
         return SpeechInterface()
 
     def on_pause(self):
