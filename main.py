@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
+from android.permissions import request_permissions, Permission
 
 from Speechrecognizer import stt
 
@@ -74,18 +75,14 @@ class SpeechInterface(BoxLayout):
 class SpeechApp(App):
 
     def build(self):
-        if ( platform == 'android' ):
-            from android.permissions import request_permissions, Permission
-
-            request_permissions([
-                Permission.RECORD_AUDIO,
-            ])
-            
-        return SpeechInterface()
+       request_permissions([
+            Permission.RECORD_AUDIO,
+        ])
+       
+       return SpeechInterface()
 
     def on_pause(self):
         return True
 
 
-if __name__ == "__main__":
-    SpeechApp().run()
+SpeechApp().run()
