@@ -69,7 +69,7 @@ class SpeechInterface(BoxLayout):
             self.stop_listening()
 
     def update(self):
-        self.ids.partial.text = translate(stt.results[0], 'en')
+        self.ids.partial.text = translate(stt.results[0], target_language='en')
         self.ids.results.text = '\n'.join(stt.results)
 
 

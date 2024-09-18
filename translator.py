@@ -1,6 +1,15 @@
-from deep_translator import GoogleTranslator
+from googletrans import Translator
 
-def translate(text, target_language):
-    translation = GoogleTranslator(source='auto', target=target_language).translate(text)
-    return translation
 
+# Initialize the translator
+translator = Translator()
+
+def translate(text, src='auto', target_language='en'):
+    translation = translator.translate(text, src= src, dest=target_language)
+    print(f"Detected source language: {translation.src}")
+    return translation.text
+
+
+
+if __name__ == '__main__':
+    print(translate('urulaikkizhangu 1 kilo irukku', target_language='en'))
