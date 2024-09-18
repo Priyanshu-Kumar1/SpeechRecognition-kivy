@@ -1,13 +1,13 @@
 [app]
 
 # (str) Title of your application
-title = My Application
+title = Speech translator
 
 # (str) Package name
 package.name = speech
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = org.priyanshu
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,git+https://github.com/kivy/plyer.git@master,deep-translator,beautifulsoup4<5.0.0,requests<3.0.0,soupsieve>1.2,charset-normalizer<4,idna<4,urllib3<1.27,certifi>=2017.4.17
+requirements = python3,kivy,git+https://github.com/kivy/plyer.git@master,httpx>=0.22.0,h2<5,hyperframe<7,hpack<5,anyio,certifi,httpcore==1.*,idna,sniffio,h11<0.15,git+https://github.com/StarkBotsIndustries/googletrans.git
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
